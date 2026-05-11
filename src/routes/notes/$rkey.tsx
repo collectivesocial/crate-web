@@ -24,6 +24,12 @@ import { useSession } from '../../lib/session';
 
 const NEW = 'new';
 
+const labelStyle: React.CSSProperties = {
+  fontSize: '0.875rem',
+  marginBottom: '0.25rem',
+  display: 'block',
+};
+
 export function NoteEditorPage() {
   const params = useParams<{ rkey: string }>();
   const rkey = params.rkey ?? NEW;
@@ -162,16 +168,9 @@ export function NoteEditorPage() {
 
       <Stack gap={4}>
         <Box>
-          <Box
-            as="label"
-            htmlFor="note-title"
-            fontSize="sm"
-            color="fg.muted"
-            mb={1}
-            display="block"
-          >
-            Title
-          </Box>
+          <label htmlFor="note-title" style={labelStyle}>
+            <Text as="span" fontSize="sm" color="fg.muted">Title</Text>
+          </label>
           <Input
             id="note-title"
             value={title}
@@ -182,16 +181,9 @@ export function NoteEditorPage() {
         </Box>
 
         <Box>
-          <Box
-            as="label"
-            htmlFor="note-slug"
-            fontSize="sm"
-            color="fg.muted"
-            mb={1}
-            display="block"
-          >
-            Slug (URL-safe identifier)
-          </Box>
+          <label htmlFor="note-slug" style={labelStyle}>
+            <Text as="span" fontSize="sm" color="fg.muted">Slug (URL-safe identifier)</Text>
+          </label>
           <Input
             id="note-slug"
             value={slug}
@@ -204,16 +196,9 @@ export function NoteEditorPage() {
         </Box>
 
         <Box>
-          <Box
-            as="label"
-            htmlFor="note-tags"
-            fontSize="sm"
-            color="fg.muted"
-            mb={1}
-            display="block"
-          >
-            Tags (comma-separated, optional)
-          </Box>
+          <label htmlFor="note-tags" style={labelStyle}>
+            <Text as="span" fontSize="sm" color="fg.muted">Tags (comma-separated, optional)</Text>
+          </label>
           <Input
             id="note-tags"
             value={tagsInput}
@@ -223,16 +208,9 @@ export function NoteEditorPage() {
         </Box>
 
         <Box>
-          <Box
-            as="label"
-            htmlFor="note-body"
-            fontSize="sm"
-            color="fg.muted"
-            mb={1}
-            display="block"
-          >
-            Body (markdown)
-          </Box>
+          <label htmlFor="note-body" style={labelStyle}>
+            <Text as="span" fontSize="sm" color="fg.muted">Body (markdown)</Text>
+          </label>
           <Textarea
             id="note-body"
             value={body}
