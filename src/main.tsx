@@ -8,6 +8,7 @@ import { App } from './App';
 import { HomePage } from './routes/index';
 import { LoginPage } from './routes/login';
 import { NotesPage } from './routes/notes/index';
+import { NoteEditorPage } from './routes/notes/$rkey';
 
 const router = createBrowserRouter(
   [
@@ -18,6 +19,7 @@ const router = createBrowserRouter(
         { index: true, element: <HomePage /> },
         { path: 'login', element: <LoginPage /> },
         { path: 'notes', element: <NotesPage /> },
+        { path: 'notes/:rkey', element: <NoteEditorPage /> },
       ],
     },
   ],

@@ -1,15 +1,45 @@
-import { Box, Container, Flex, Text } from '@chakra-ui/react';
-import { Outlet } from 'react-router-dom';
+import { Box, Button, Container, Flex, HStack, Spinner, Text } from '@chakra-ui/react';
+import { Link as RouterLink, Outlet, useNavigate } from 'react-router-dom';
+import { useSession } from './lib/session';
 
 export function App() {
+  const { status, user, logout } = useSession();
+  const navigate = useNavigate();
+
+  const onLogout = async () => {
+    await logout();
+    navigate('/login');
+  };
+
   return (
     <Flex direction="column" minH="100vh">
       <Box as="header" bg="bg.nav" borderBottom="1px solid" borderColor="border.subtle" py={3} px={6}>
         <Container maxW="container.workspace">
           <Flex align="center" justify="space-between">
             <Text fontWeight="700" fontSize="lg" color="accent.default">
-              crate.social
+              <RouterLink to="/">crate.social</RouterLink>
             </Text>
+
+            <HStack gap={4}>
+              {status === 'loading' && <Spinner size="sm" />}
+
+              {status === 'authenticated' && user && (
+                <>
+                  <Text fontSize="sm" color="fg.muted">
+                    @{user.handle ?? user.did}
+                  </Text>
+                  <Button size="sm" variant="outline" onClick={onLogout}>
+                    Log out
+                  </Button>
+                </>
+              )}
+
+              {status === 'unauthenticated' && (
+                <Button size="sm" colorPalette="teal" asChild>
+                  <RouterLink to="/login">Sign in</RouterLink>
+                </Button>
+              )}
+            </HStack>
           </Flex>
         </Container>
       </Box>

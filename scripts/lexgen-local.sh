@@ -17,7 +17,10 @@ if [[ ! -d "$CRATE_LEXICONS/social/crate" ]]; then
 fi
 
 LEXICONS_DIR="$(cd "$CRATE_LEXICONS" && pwd)"
-mapfile -t LEXICON_FILES < <(find "$LEXICONS_DIR/social/crate" -name "*.json" | sort)
+LEXICON_FILES=()
+while IFS= read -r -d '' f; do
+  LEXICON_FILES+=("$f")
+done < <(find "$LEXICONS_DIR/social/crate" -name "*.json" -print0 | sort -z)
 
 if [[ ${#LEXICON_FILES[@]} -eq 0 ]]; then
   echo "ERROR: No lexicon JSON files found under $LEXICONS_DIR/social/crate" >&2
@@ -33,7 +36,7 @@ echo "    output: src/lexicon/"
 echo ""
 
 cd "$LEXICONS_DIR"
-npx @atproto/lex-cli gen-api "$OUTPUT_DIR" "${LEXICON_FILES[@]}"
+yes | npx @atproto/lex-cli gen-api "$OUTPUT_DIR" "${LEXICON_FILES[@]}"
 
 echo ""
 echo "✓ Lexicon codegen complete. Remember to commit the generated files."

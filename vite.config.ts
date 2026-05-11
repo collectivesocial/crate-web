@@ -24,6 +24,8 @@ export default defineConfig({
       '/login': 'http://127.0.0.1:3000',
       '/logout': 'http://127.0.0.1:3000',
       '/.well-known': 'http://127.0.0.1:3000',
+      '/oauth-client-metadata.json': 'http://127.0.0.1:3000',
+      '/api': 'http://127.0.0.1:3000',
       '/xrpc': 'http://127.0.0.1:3000',
     },
   },
