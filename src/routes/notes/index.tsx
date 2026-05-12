@@ -9,9 +9,9 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { listNotes, type NoteEntry, rkeyFromUri } from '../../lib/notes';
+import { buildBreadcrumb, listNotes, type NoteEntry, rkeyFromUri } from '../../lib/notes';
 import { useSession } from '../../lib/session';
 
 export function NotesPage() {
@@ -40,6 +40,11 @@ export function NotesPage() {
       cancelled = true;
     };
   }, [status, navigate]);
+
+  const byUri = useMemo(
+    () => new Map((notes ?? []).map((n) => [n.uri, n])),
+    [notes]
+  );
 
   return (
     <Box>
@@ -87,11 +92,17 @@ export function NotesPage() {
         <Stack gap={3}>
           {notes.map((n) => {
             const rkey = rkeyFromUri(n.uri);
+            const crumb = buildBreadcrumb(n, byUri);
             return (
               <Card.Root key={n.uri} variant="outline">
                 <Card.Body>
                   <Flex justify="space-between" align="start" gap={4}>
                     <Box flex="1" minW={0}>
+                      {crumb.length > 0 && (
+                        <Text fontSize="xs" color="fg.muted" mb={1}>
+                          {crumb.map((a) => a.value.title).join(' / ')}
+                        </Text>
+                      )}
                       <Heading as="h3" size="md" mb={1}>
                         <RouterLink to={`/notes/${encodeURIComponent(rkey)}`}>
                           {n.value.title}

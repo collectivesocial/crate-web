@@ -6,6 +6,7 @@ export interface NoteRecord {
   slug: string;
   body: string;
   tags?: string[];
+  parent?: string;
   publishedAt: string;
   updatedAt?: string;
   createdAt: string;
@@ -22,6 +23,7 @@ export interface NoteInput {
   slug: string;
   body: string;
   tags?: string[];
+  parent?: string;
   publishedAt?: string;
 }
 
@@ -55,4 +57,27 @@ export async function updateNote(rkey: string, input: NoteInput) {
 
 export async function deleteNote(rkey: string) {
   return apiFetch.del<void>(`/api/notes/${encodeURIComponent(rkey)}`);
+}
+
+/**
+ * Walk the `parent` chain for a note and return ancestors ordered root → direct parent.
+ * The note itself is not included. Stops at a missing entry, a cycle, or depth 10.
+ */
+export function buildBreadcrumb(
+  note: NoteEntry,
+  byUri: Map<string, NoteEntry>,
+  maxDepth = 10
+): NoteEntry[] {
+  const chain: NoteEntry[] = [];
+  const seen = new Set<string>([note.uri]);
+  let cursor: string | undefined = note.value.parent;
+  while (cursor && chain.length < maxDepth) {
+    if (seen.has(cursor)) break;
+    seen.add(cursor);
+    const ancestor = byUri.get(cursor);
+    if (!ancestor) break;
+    chain.unshift(ancestor);
+    cursor = ancestor.value.parent;
+  }
+  return chain;
 }

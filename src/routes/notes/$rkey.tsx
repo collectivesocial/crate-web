@@ -10,14 +10,17 @@ import {
   Text,
   Textarea,
 } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useMemo, useState } from 'react';
+import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
 import {
+  buildBreadcrumb,
   createNote,
   deleteNote,
   getNote,
+  listNotes,
   rkeyFromUri,
   updateNote,
+  type NoteEntry,
   type NoteInput,
 } from '../../lib/notes';
 import { useSession } from '../../lib/session';
@@ -42,6 +45,9 @@ export function NoteEditorPage() {
   const [slug, setSlug] = useState('');
   const [body, setBody] = useState('');
   const [tagsInput, setTagsInput] = useState('');
+  const [parent, setParent] = useState<string>('');
+  const [currentUri, setCurrentUri] = useState<string | null>(null);
+  const [allNotes, setAllNotes] = useState<NoteEntry[]>([]);
 
   const [loading, setLoading] = useState(!isNew);
   const [saving, setSaving] = useState(false);
@@ -64,6 +70,8 @@ export function NoteEditorPage() {
         setSlug(entry.value.slug);
         setBody(entry.value.body);
         setTagsInput((entry.value.tags ?? []).join(', '));
+        setParent(entry.value.parent ?? '');
+        setCurrentUri(entry.uri);
       })
       .catch((err: Error) => {
         if (!cancelled) setError(err.message);
@@ -75,6 +83,57 @@ export function NoteEditorPage() {
       cancelled = true;
     };
   }, [rkey, isNew, status, navigate]);
+
+  // Load every note once so we can populate the parent picker and walk the
+  // breadcrumb chain locally.
+  useEffect(() => {
+    if (status !== 'authenticated') return;
+    let cancelled = false;
+    listNotes({ limit: 100 })
+      .then((data) => {
+        if (!cancelled) setAllNotes(data.notes);
+      })
+      .catch(() => {
+        /* non-fatal — parent picker just won't populate */
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [status]);
+
+  const byUri = useMemo(
+    () => new Map(allNotes.map((n) => [n.uri, n])),
+    [allNotes]
+  );
+
+  const breadcrumb = useMemo(() => {
+    if (!parent) return [];
+    // Build a synthetic NoteEntry that points at our chosen parent so we can
+    // reuse buildBreadcrumb to walk upward from there.
+    const parentEntry = byUri.get(parent);
+    if (!parentEntry) return [];
+    return [...buildBreadcrumb(parentEntry, byUri), parentEntry];
+  }, [parent, byUri]);
+
+  // Notes available as a parent option — exclude the current note and any of
+  // its descendants to prevent cycles.
+  const parentOptions = useMemo(() => {
+    if (!currentUri) return allNotes;
+    const descendants = new Set<string>([currentUri]);
+    // Walk the tree breadth-first: anything whose parent chain reaches
+    // currentUri is a descendant.
+    let changed = true;
+    while (changed) {
+      changed = false;
+      for (const n of allNotes) {
+        if (n.value.parent && descendants.has(n.value.parent) && !descendants.has(n.uri)) {
+          descendants.add(n.uri);
+          changed = true;
+        }
+      }
+    }
+    return allNotes.filter((n) => !descendants.has(n.uri));
+  }, [allNotes, currentUri]);
 
   const onSave = async () => {
     setError(null);
@@ -92,6 +151,7 @@ export function NoteEditorPage() {
       slug: slug.trim(),
       body,
       tags: tags.length > 0 ? tags : undefined,
+      parent: parent || undefined,
     };
 
     setSaving(true);
@@ -135,6 +195,24 @@ export function NoteEditorPage() {
 
   return (
     <Box maxW="container.content">
+      {breadcrumb.length > 0 && (
+        <HStack gap={1} mb={2} fontSize="sm" color="fg.muted" flexWrap="wrap">
+          <RouterLink to="/notes">Notes</RouterLink>
+          {breadcrumb.map((ancestor) => (
+            <HStack key={ancestor.uri} gap={1}>
+              <Text as="span">/</Text>
+              <RouterLink to={`/notes/${encodeURIComponent(rkeyFromUri(ancestor.uri))}`}>
+                {ancestor.value.title}
+              </RouterLink>
+            </HStack>
+          ))}
+          <Text as="span">/</Text>
+          <Text as="span" color="fg.default">
+            {title || (isNew ? 'New note' : 'Untitled')}
+          </Text>
+        </HStack>
+      )}
+
       <Flex align="center" justify="space-between" mb={6}>
         <Heading as="h1" size="xl">
           {isNew ? 'New note' : 'Edit note'}
@@ -193,6 +271,33 @@ export function NoteEditorPage() {
             autoCorrect="off"
             spellCheck={false}
           />
+        </Box>
+
+        <Box>
+          <label htmlFor="note-parent" style={labelStyle}>
+            <Text as="span" fontSize="sm" color="fg.muted">Parent note (optional)</Text>
+          </label>
+          <select
+            id="note-parent"
+            value={parent}
+            onChange={(e) => setParent(e.target.value)}
+            style={{
+              width: '100%',
+              padding: '0.5rem 0.75rem',
+              borderRadius: '6px',
+              border: '1px solid var(--chakra-colors-border)',
+              background: 'var(--chakra-colors-bg)',
+              color: 'var(--chakra-colors-fg)',
+              fontSize: '0.95rem',
+            }}
+          >
+            <option value="">— No parent (root note) —</option>
+            {parentOptions.map((n) => (
+              <option key={n.uri} value={n.uri}>
+                {n.value.title}
+              </option>
+            ))}
+          </select>
         </Box>
 
         <Box>

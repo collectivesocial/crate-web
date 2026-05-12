@@ -1,4 +1,4 @@
-import { Box, Button, Container, Flex, HStack, Spinner, Text } from '@chakra-ui/react';
+import { Avatar, Box, Button, Container, Flex, HStack, Spinner, Text } from '@chakra-ui/react';
 import { Link as RouterLink, Outlet, useNavigate } from 'react-router-dom';
 import { useSession } from './lib/session';
 
@@ -10,6 +10,10 @@ export function App() {
     await logout();
     navigate('/login');
   };
+
+  // Bluesky-style fallback label for the avatar when no image is set.
+  const handleOrDid = user?.handle ?? user?.did ?? '';
+  const avatarLabel = (user?.displayName || user?.handle || handleOrDid).replace(/^@/, '');
 
   return (
     <Flex direction="column" minH="100vh">
@@ -30,9 +34,15 @@ export function App() {
                       Notes
                     </Text>
                   </RouterLink>
-                  <Text fontSize="sm" color="fg.muted">
-                    @{user.handle ?? user.did}
-                  </Text>
+                  <HStack gap={2}>
+                    <Avatar.Root size="xs" colorPalette="teal">
+                      {user.avatar && <Avatar.Image src={user.avatar} alt={avatarLabel} />}
+                      <Avatar.Fallback name={avatarLabel} />
+                    </Avatar.Root>
+                    <Text fontSize="sm" color="fg.muted">
+                      @{user.handle ?? user.did}
+                    </Text>
+                  </HStack>
                   <Button size="sm" variant="outline" onClick={onLogout}>
                     Log out
                   </Button>

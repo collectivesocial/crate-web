@@ -20,6 +20,8 @@ export interface Main {
   body: string
   /** Freeform tags for categorizing and filtering notes. */
   tags?: string[]
+  /** Optional AT-URI of a parent social.crate.note. Used to build hierarchical note trees and breadcrumb navigation. A note without a parent is a root note. */
+  parent?: string
   /** The date this note is considered published. Controls public visibility ordering. */
   publishedAt: string
   /** Timestamp of the most recent edit to this note. */
