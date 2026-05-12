@@ -32,7 +32,7 @@ export function LoginPage() {
         Sign in to crate.social
       </Heading>
       <Text color="fg.muted" mb={8} textAlign="center">
-        Use your ATProto handle to log in.
+        Use your Atmosphere account to log in.
       </Text>
 
       <form onSubmit={onSubmit}>
@@ -46,7 +46,7 @@ export function LoginPage() {
             autoCapitalize="none"
             autoCorrect="off"
             spellCheck={false}
-            aria-label="Your ATProto handle"
+            aria-label="Your Atmosphere account"
           />
           {error && (
             <Text color="fg.error" fontSize="sm">
