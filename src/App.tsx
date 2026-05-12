@@ -1,6 +1,11 @@
-import { Avatar, Box, Button, Container, Flex, HStack, Menu, Portal, Spinner, Text } from '@chakra-ui/react';
+import { Avatar, Box, Button, chakra, Container, Flex, HStack, Menu, Portal, Spinner, Text } from '@chakra-ui/react';
 import { Link as RouterLink, Outlet, useNavigate } from 'react-router-dom';
 import { useSession } from './lib/session';
+
+// Chakra v3's Box loses SVG-specific attributes when used with `as="svg"`.
+// `chakra('svg')` makes a properly typed SVG element that still accepts
+// Chakra style props like `boxSize`.
+const ChakraSvg = chakra('svg');
 
 export function App() {
   const { status, user, logout } = useSession();
@@ -21,7 +26,19 @@ export function App() {
         <Container maxW="container.workspace">
           <Flex align="center" justify="space-between">
             <Text fontWeight="700" fontSize="lg" color="accent.default">
-              <RouterLink to="/">crate.social</RouterLink>
+              <RouterLink to="/">
+                <HStack gap={2}>
+                  <ChakraSvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" boxSize="5">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                    <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                    <line x1="12" y1="22.08" x2="12" y2="12" />
+                    <line x1="3.27" y1="17.04" x2="12" y2="12" />
+                    <line x1="20.73" y1="17.04" x2="12" y2="12" />
+                    <path d="m7.5 4.27 9 5.15" />
+                  </ChakraSvg>
+                  <Text as="span">Crate</Text>
+                </HStack>
+              </RouterLink>
             </Text>
 
             <HStack gap={4}>
@@ -61,6 +78,9 @@ export function App() {
                         </Menu.Item>
                         <Menu.Item value="content" asChild>
                           <RouterLink to="/content">Content</RouterLink>
+                        </Menu.Item>
+                        <Menu.Item value="events" asChild>
+                          <RouterLink to="/events">Events</RouterLink>
                         </Menu.Item>
                         <Menu.Item value="now" asChild>
                           <RouterLink to="/now">Now</RouterLink>
@@ -112,7 +132,7 @@ export function App() {
       <Box as="footer" bg="bg.subtle" borderTop="1px solid" borderColor="border.subtle" py={4} px={6}>
         <Container maxW="container.workspace">
           <Text fontSize="sm" color="fg.muted" textAlign="center">
-            crate.social — Package your ATProto records for your PDS
+            Crate — Package your ATProto records for your PDS
           </Text>
         </Container>
       </Box>

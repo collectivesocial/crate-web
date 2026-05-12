@@ -94,6 +94,7 @@ export function ContentEditorPage() {
   const [kind, setKind] = useState<ContentKind>('article');
   const [kindLabel, setKindLabel] = useState('');
   const [title, setTitle] = useState('');
+  const [slug, setSlug] = useState('');
   const [description, setDescription] = useState('');
   const [body, setBody] = useState('');
   const [canonicalUrl, setCanonicalUrl] = useState('');
@@ -130,6 +131,7 @@ export function ContentEditorPage() {
         setKind(v.kind);
         setKindLabel(v.kindLabel ?? '');
         setTitle(v.title);
+        setSlug(v.slug ?? '');
         setDescription(v.description ?? '');
         setBody(v.body ?? '');
         setCanonicalUrl(v.canonicalUrl ?? '');
@@ -210,6 +212,7 @@ export function ContentEditorPage() {
       kind,
       kindLabel: kind === 'other' && kindLabel.trim() ? kindLabel.trim() : undefined,
       title: title.trim(),
+      slug: slug.trim() || undefined,
       description: description.trim() || undefined,
       body: body.trim() || undefined,
       canonicalUrl: canonicalUrl.trim() || undefined,
@@ -321,6 +324,23 @@ export function ContentEditorPage() {
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Title"
             size="lg"
+          />
+        </Box>
+
+        <Box>
+          <label htmlFor="content-slug" style={labelStyle}>
+            <Text as="span" fontSize="sm" color="fg.muted">
+              Slug (optional — URL-safe identifier for stable links)
+            </Text>
+          </label>
+          <Input
+            id="content-slug"
+            value={slug}
+            onChange={(e) => setSlug(e.target.value)}
+            placeholder="my-zine"
+            autoCapitalize="none"
+            autoCorrect="off"
+            spellCheck={false}
           />
         </Box>
 

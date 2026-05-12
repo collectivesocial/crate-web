@@ -29,7 +29,7 @@ export function LoginPage() {
   return (
     <Box maxW="sm" mx="auto" mt={16}>
       <Heading as="h1" size="xl" mb={4} textAlign="center">
-        Sign in to crate.social
+        Sign in to Crate
       </Heading>
       <Text color="fg.muted" mb={8} textAlign="center">
         Use your Atmosphere account to log in.

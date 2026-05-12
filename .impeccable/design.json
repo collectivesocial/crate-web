@@ -1,0 +1,327 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-05-12T00:00:00.000Z",
+  "title": "Design System: crate-web",
+  "extensions": {
+    "colorMeta": {
+      "paper-0": {
+        "role": "neutral",
+        "displayName": "Paper White",
+        "canonical": "oklch(99.5% 0.003 95)",
+        "tonalRamp": [
+          "oklch(14% 0.010 95)",
+          "oklch(20% 0.010 95)",
+          "oklch(30% 0.009 95)",
+          "oklch(42% 0.009 95)",
+          "oklch(55% 0.009 95)",
+          "oklch(70% 0.009 95)",
+          "oklch(84% 0.009 95)",
+          "oklch(91% 0.008 95)",
+          "oklch(95% 0.006 95)",
+          "oklch(99.5% 0.003 95)"
+        ]
+      },
+      "paper-50": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "canonical": "oklch(98% 0.005 95)",
+        "tonalRamp": [
+          "oklch(14% 0.010 95)",
+          "oklch(20% 0.010 95)",
+          "oklch(30% 0.009 95)",
+          "oklch(42% 0.009 95)",
+          "oklch(55% 0.009 95)",
+          "oklch(70% 0.009 95)",
+          "oklch(84% 0.009 95)",
+          "oklch(91% 0.008 95)",
+          "oklch(95% 0.006 95)",
+          "oklch(99.5% 0.003 95)"
+        ]
+      },
+      "ink": {
+        "role": "primary",
+        "displayName": "Ink",
+        "canonical": "oklch(13% 0.012 145)",
+        "tonalRamp": [
+          "oklch(13% 0.012 145)",
+          "oklch(20% 0.010 95)",
+          "oklch(30% 0.009 95)",
+          "oklch(42% 0.009 95)",
+          "oklch(55% 0.009 95)",
+          "oklch(70% 0.009 95)",
+          "oklch(84% 0.009 95)",
+          "oklch(91% 0.008 95)",
+          "oklch(95% 0.006 95)",
+          "oklch(99.5% 0.003 95)"
+        ]
+      },
+      "sap-500": {
+        "role": "primary",
+        "displayName": "Sap Green",
+        "canonical": "oklch(48% 0.115 145)",
+        "tonalRamp": [
+          "oklch(18% 0.050 145)",
+          "oklch(24% 0.070 145)",
+          "oklch(32% 0.090 145)",
+          "oklch(40% 0.105 145)",
+          "oklch(48% 0.115 145)",
+          "oklch(60% 0.110 145)",
+          "oklch(72% 0.095 145)",
+          "oklch(84% 0.070 145)",
+          "oklch(92% 0.045 145)",
+          "oklch(96% 0.025 145)"
+        ]
+      },
+      "brick": {
+        "role": "tertiary",
+        "displayName": "Brick",
+        "canonical": "oklch(50% 0.180 28)"
+      },
+      "amber": {
+        "role": "tertiary",
+        "displayName": "Amber",
+        "canonical": "oklch(70% 0.130 80)"
+      },
+      "graphite": {
+        "role": "tertiary",
+        "displayName": "Graphite Blue",
+        "canonical": "oklch(50% 0.080 235)"
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Page H1 — one per screen. Plex Sans 600, fluid clamp size."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Sectional H2 inside long pages."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Card titles, list-item titles, note titles in list views."
+      },
+      "body": {
+        "displayName": "Body (Chrome)",
+        "purpose": "Plex Sans body copy for everything the user is being told about the system."
+      },
+      "editor-body": {
+        "displayName": "Editor Body (Content)",
+        "purpose": "Plex Mono body for the writing surface, slugs, URIs, raw record data — the thing being worked on."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Form labels, button text, badges, filter tabs. UPPERCASE with 0.06em tracking. Only valid at 0.75rem."
+      },
+      "meta": {
+        "displayName": "Meta",
+        "purpose": "Plex Mono small for timestamps, slugs, AT-URIs, tag text, breadcrumb separators."
+      }
+    },
+    "shadows": [
+      {
+        "name": "menu-hairline",
+        "value": "0 1px 0 oklch(13% 0.012 145 / 0.08)",
+        "purpose": "The only shadow in the system. Used on floating menu portals only. 1px ink hairline at 8% opacity, no blur, no spread."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out-quart",
+        "value": "cubic-bezier(0.25, 1, 0.5, 1)",
+        "purpose": "Default easing for hover and state transitions. Exponential ease-out per impeccable's motion law."
+      },
+      {
+        "name": "duration-quick",
+        "value": "120ms",
+        "purpose": "Hover state changes, focus outlines."
+      },
+      {
+        "name": "duration-base",
+        "value": "180ms",
+        "purpose": "Default duration for color and border transitions."
+      },
+      {
+        "name": "duration-deliberate",
+        "value": "240ms",
+        "purpose": "Menu open/close, drawer slide-in."
+      }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Canonical action on a screen (Save, Sign in). Ink fill, paper text, uppercase tracked label.",
+      "html": "<button class=\"ds-btn ds-btn-primary\">Save</button>",
+      "css": ".ds-btn { font-family: 'IBM Plex Sans', system-ui, sans-serif; font-size: 0.75rem; font-weight: 500; line-height: 1.4; letter-spacing: 0.06em; text-transform: uppercase; border: none; border-radius: 2px; cursor: pointer; transition: background-color 180ms cubic-bezier(0.25, 1, 0.5, 1), color 180ms cubic-bezier(0.25, 1, 0.5, 1); padding: 10px 18px; } .ds-btn:focus-visible { outline: 2px solid oklch(48% 0.115 145); outline-offset: 2px; } .ds-btn-primary { background: oklch(13% 0.012 145); color: oklch(98% 0.005 95); } .ds-btn-primary:hover { background: oklch(20% 0.010 95); } .ds-btn-primary:active { background: oklch(14% 0.010 95); }"
+    },
+    {
+      "name": "Accent Button (Publish)",
+      "kind": "button",
+      "refersTo": "button-accent",
+      "description": "Reserved for Publish. Sap green fill, paper text. Used at most once per screen.",
+      "html": "<button class=\"ds-btn ds-btn-accent\">Publish</button>",
+      "css": ".ds-btn-accent { background: oklch(48% 0.115 145); color: oklch(98% 0.005 95); } .ds-btn-accent:hover { background: oklch(40% 0.105 145); } .ds-btn-accent:active { background: oklch(32% 0.090 145); }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Non-canonical action when a button affordance is still needed (Cancel, Import).",
+      "html": "<button class=\"ds-btn ds-btn-secondary\">Cancel</button>",
+      "css": ".ds-btn-secondary { background: oklch(99.5% 0.003 95); color: oklch(13% 0.012 145); border: 1px solid oklch(84% 0.009 95); padding: 9px 17px; } .ds-btn-secondary:hover { background: oklch(95% 0.006 95); }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Navigation-adjacent actions (Back, dropdown triggers, secondary tools). No border at rest.",
+      "html": "<button class=\"ds-btn ds-btn-ghost\">Back</button>",
+      "css": ".ds-btn-ghost { background: transparent; color: oklch(30% 0.009 95); padding: 10px 14px; } .ds-btn-ghost:hover { background: oklch(95% 0.006 95); color: oklch(13% 0.012 145); }"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Standard text input. Sap-green outline on focus is the system's decisive moment.",
+      "html": "<input class=\"ds-input\" type=\"text\" placeholder=\"my-note-slug\" />",
+      "css": ".ds-input { font-family: 'IBM Plex Sans', system-ui, sans-serif; font-size: 0.9375rem; line-height: 1.6; color: oklch(13% 0.012 145); background: oklch(99.5% 0.003 95); border: 1px solid oklch(84% 0.009 95); border-radius: 2px; padding: 10px 12px; width: 100%; transition: border-color 180ms cubic-bezier(0.25, 1, 0.5, 1); } .ds-input::placeholder { color: oklch(70% 0.009 95); } .ds-input:hover { border-color: oklch(70% 0.009 95); } .ds-input:focus-visible { border: 1.5px solid oklch(48% 0.115 145); outline: 2px solid oklch(48% 0.115 145); outline-offset: 2px; padding: 9.5px 11.5px; }"
+    },
+    {
+      "name": "Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "List-item card for notes/content. 2px corner radius, 1px paper hairline, no shadow.",
+      "html": "<article class=\"ds-card\"><h3 class=\"ds-card-title\">A title in Plex Sans</h3><div class=\"ds-card-meta\">my-slug \u00b7 May 12, 2026</div><p class=\"ds-card-desc\">A short preview of the body content in Plex Sans, line-clamped to two lines.</p></article>",
+      "css": ".ds-card { background: oklch(99.5% 0.003 95); border: 1px solid oklch(84% 0.009 95); border-radius: 2px; padding: 20px 24px; transition: border-color 180ms cubic-bezier(0.25, 1, 0.5, 1); } .ds-card:hover { border-color: oklch(70% 0.009 95); } .ds-card-title { font-family: 'IBM Plex Sans', system-ui, sans-serif; font-size: 1.0625rem; font-weight: 600; line-height: 1.3; letter-spacing: -0.008em; color: oklch(14% 0.010 95); margin: 0 0 4px 0; } .ds-card-meta { font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 0.8125rem; line-height: 1.45; color: oklch(42% 0.009 95); margin-bottom: 8px; } .ds-card-desc { font-family: 'IBM Plex Sans', system-ui, sans-serif; font-size: 0.9375rem; line-height: 1.6; color: oklch(30% 0.009 95); margin: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }"
+    },
+    {
+      "name": "Filter Tab Row",
+      "kind": "nav",
+      "refersTo": "filter-tab",
+      "description": "Replaces solid/outline button chips. Uppercase Label-scale words separated by middle-dot, active gets a sap-green underline. Newspaper section nav.",
+      "html": "<nav class=\"ds-filter-row\"><button class=\"ds-filter-tab ds-filter-tab-active\">All</button><span class=\"ds-filter-sep\">\u00b7</span><button class=\"ds-filter-tab\">Illustration</button><span class=\"ds-filter-sep\">\u00b7</span><button class=\"ds-filter-tab\">Article</button><span class=\"ds-filter-sep\">\u00b7</span><button class=\"ds-filter-tab\">Video</button><span class=\"ds-filter-sep\">\u00b7</span><button class=\"ds-filter-tab\">Talk</button></nav>",
+      "css": ".ds-filter-row { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; border-bottom: 1px solid oklch(84% 0.009 95); padding-bottom: 0; margin-bottom: 24px; } .ds-filter-tab { font-family: 'IBM Plex Sans', system-ui, sans-serif; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: oklch(55% 0.009 95); background: transparent; border: none; padding: 8px 0; cursor: pointer; position: relative; transition: color 120ms cubic-bezier(0.25, 1, 0.5, 1); } .ds-filter-tab:hover { color: oklch(13% 0.012 145); } .ds-filter-tab-active { color: oklch(14% 0.010 95); } .ds-filter-tab-active::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: oklch(48% 0.115 145); } .ds-filter-sep { font-family: 'IBM Plex Mono', monospace; color: oklch(70% 0.009 95); font-size: 0.75rem; user-select: none; } .ds-filter-tab:focus-visible { outline: 2px solid oklch(48% 0.115 145); outline-offset: 2px; }"
+    },
+    {
+      "name": "Top Navigation",
+      "kind": "nav",
+      "refersTo": "nav",
+      "description": "56px-tall opaque paper bar with a 1px hairline bottom border. Brand mark is in Plex Mono — declaring 'this is a tool'.",
+      "html": "<header class=\"ds-nav\"><a class=\"ds-nav-brand\" href=\"/\">Crate</a><nav class=\"ds-nav-spacer\"></nav><button class=\"ds-nav-avatar\" aria-label=\"Account menu\"><span>BE</span></button></header>",
+      "css": ".ds-nav { display: flex; align-items: center; gap: 16px; height: 56px; padding: 0 clamp(16px, 4vw, 64px); background: oklch(98% 0.005 95); border-bottom: 1px solid oklch(84% 0.009 95); } .ds-nav-brand { font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 0.875rem; font-weight: 500; color: oklch(13% 0.012 145); text-decoration: none; letter-spacing: 0; } .ds-nav-brand:hover { color: oklch(48% 0.115 145); } .ds-nav-spacer { flex: 1; } .ds-nav-avatar { width: 28px; height: 28px; border-radius: 50%; background: oklch(95% 0.006 95); color: oklch(30% 0.009 95); border: 1px solid oklch(84% 0.009 95); font-family: 'IBM Plex Sans', system-ui, sans-serif; font-size: 0.6875rem; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; cursor: pointer; transition: border-color 120ms cubic-bezier(0.25, 1, 0.5, 1); } .ds-nav-avatar:hover { border-color: oklch(48% 0.115 145); } .ds-nav-avatar:focus-visible { outline: 2px solid oklch(48% 0.115 145); outline-offset: 2px; }"
+    },
+    {
+      "name": "Tag (Inline Mono)",
+      "kind": "chip",
+      "refersTo": "tag",
+      "description": "Replaces pill-style tags. Inline mono text with # prefix, no background, no border. Reads as data, not decoration.",
+      "html": "<span class=\"ds-tag\">#ideas</span> <span class=\"ds-tag-sep\">\u00b7</span> <span class=\"ds-tag\">#fiber</span> <span class=\"ds-tag-sep\">\u00b7</span> <span class=\"ds-tag\">#worklog</span>",
+      "css": ".ds-tag { font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 0.8125rem; line-height: 1.45; color: oklch(42% 0.009 95); text-decoration: none; } a.ds-tag:hover { color: oklch(48% 0.115 145); } .ds-tag-sep { font-family: 'IBM Plex Mono', monospace; color: oklch(70% 0.009 95); font-size: 0.8125rem; user-select: none; }"
+    },
+    {
+      "name": "Note Editor Title",
+      "kind": "custom",
+      "refersTo": "input",
+      "description": "Signature surface of the editor. Borderless oversized title input with a faint underline on focus.",
+      "html": "<input class=\"ds-editor-title\" type=\"text\" placeholder=\"Untitled\" value=\"On the practice of packing things\" />",
+      "css": ".ds-editor-title { font-family: 'IBM Plex Sans', system-ui, sans-serif; font-size: clamp(1.75rem, 1.4rem + 1.5vw, 2.25rem); font-weight: 600; line-height: 1.15; letter-spacing: -0.022em; color: oklch(14% 0.010 95); background: transparent; border: none; border-bottom: 1px solid transparent; padding: 0 0 4px 0; margin-bottom: 16px; width: 100%; outline: none; transition: border-color 180ms cubic-bezier(0.25, 1, 0.5, 1); } .ds-editor-title::placeholder { color: oklch(70% 0.009 95); } .ds-editor-title:focus { border-bottom: 1px solid oklch(91% 0.008 95); }"
+    },
+    {
+      "name": "Editor Body (Markdown Textarea)",
+      "kind": "custom",
+      "refersTo": "editor-body",
+      "description": "The writing surface. Plex Mono, page-like column, no border in edit mode.",
+      "html": "<textarea class=\"ds-editor-body\" rows=\"12\" placeholder=\"Start writing\u2026\">A note in Plex Mono. The body of every note lives in monospace, treated as legitimate prose rather than code. Markdown is content, content is data, data is mono.\n\nA second paragraph to show line-height and column width feel.</textarea>",
+      "css": ".ds-editor-body { font-family: 'IBM Plex Mono', ui-monospace, 'JetBrains Mono', Menlo, monospace; font-size: 0.9375rem; font-weight: 400; line-height: 1.7; letter-spacing: 0; color: oklch(20% 0.010 95); background: transparent; border: none; outline: none; padding: 0; resize: vertical; width: 100%; max-width: 70ch; min-height: 12em; tab-size: 2; } .ds-editor-body::placeholder { color: oklch(70% 0.009 95); font-style: italic; } .ds-editor-body::selection { background: oklch(92% 0.045 145); color: oklch(13% 0.012 145); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Quiet Workshop",
+    "overview": "crate-web is a tool. Not a product, not a platform, not a feed. A tool sitting on a clean workbench in good light: the writing surface in the center, controls within reach but out of view, every interface decision pulling weight away from itself toward whatever the maker is currently making. The system rejects three default reflexes at once: the corporate-SaaS reflex (teal, illustrations, rounded everything, friendly cartoons), the editorial-magazine reflex (cream paper, single decorative serif, oversized drop cap, Substack-admin polish), and the AI-coded-landing reflex (glass cards, gradient text, dark-mode-with-neon). What's left is honest workshop typography on warm paper, sap-green as a single tool color used sparingly, sharp corners, no shadows, and IBM Plex carrying both the chrome and the body in two registers.",
+    "keyCharacteristics": [
+      "Warm paper, ink type — page surface is slightly warm off-white tinted toward the accent hue; body text is deep paper-toned near-black, never #000.",
+      "One tool color — sap green appears on focused fields, the publish action, and inline links; less than 10% of any screen.",
+      "Plex in two registers — IBM Plex Sans for chrome and UI, IBM Plex Mono for editor body, slugs, timestamps, AT-URIs, and any 'data being worked on' surface.",
+      "Sharp corners — buttons, cards, inputs default to 2px or zero; workshop tools don't have soft edges.",
+      "Flat by default — no box-shadows anywhere; depth is conveyed through 1px hairline borders and tonal layering on paper.",
+      "Compact interior, generous edges — dense lists and metadata frame the central content; outer page margin scales 16px to 64px with viewport.",
+      "Mono as content, not just code — notes are markdown; markdown is read better in mono; the editor body, slug display, URIs, timestamps, and tags all live in Plex Mono."
+    ],
+    "rules": [
+      {
+        "name": "The One Tool Rule",
+        "body": "The sap accent is used on at most 10% of any rendered screen. If you find yourself reaching for sap on a third element, you're decorating, not signaling. Replace the third use with ink or paper-600.",
+        "section": "colors"
+      },
+      {
+        "name": "The No-Pure-Black Rule",
+        "body": "#000 is never used. The darkest ink is paper-900 (oklch 14%, tinted warm). The eye reads tinted-near-black as paper-and-ink; pure black reads as a screen.",
+        "section": "colors"
+      },
+      {
+        "name": "The State-Sparing Rule",
+        "body": "Brick, amber, and graphite-blue are state colors only. They never appear in chrome, decoration, or branding. If they're visible, something is happening — not just because the screen needed color.",
+        "section": "colors"
+      },
+      {
+        "name": "The Mono-as-Content Rule",
+        "body": "Anything the user is writing, editing, or seeing as raw record data is in Plex Mono. Anything the user is being told about the system is in Plex Sans. Code blocks are mono (of course), but so are slugs, timestamps, AT-URIs, tag text, and the entire markdown editor body.",
+        "section": "typography"
+      },
+      {
+        "name": "The No-Italic-Emphasis Rule",
+        "body": "Emphasis in body copy comes from weight (400 to 500 or 600), not italic. Italic is reserved for genuine titles of works inside running prose and the empty-state preview placeholder.",
+        "section": "typography"
+      },
+      {
+        "name": "The Uppercase-Plus-Tracking Rule",
+        "body": "UPPERCASE only appears at the Label scale (0.75rem) with letter-spacing 0.06em. Never UPPERCASE at body size or larger.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat-By-Default Rule",
+        "body": "No box-shadow is used anywhere in chrome. Modals, popovers, and menus may use a single hairline border plus tonal background and that is enough. The single allowed exception is the dropdown menu portal: 0 1px 0 ink/8%, no blur, no spread.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Border-Is-The-Affordance Rule",
+        "body": "When an element needs to signal 'this is a distinct surface,' it gets a 1px paper-300 border, not a shadow. When an element needs to signal 'this is interactive,' it gets a hover state that changes its background by one tonal step, not a lift.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do use IBM Plex Sans for everything UI and IBM Plex Mono for everything content-being-worked-on. The split is the design's defining typographic move.",
+      "Do use sap-500 sparingly: focused field, publish action, inline prose links, active filter-tab underline. Less than 10% of any screen.",
+      "Do keep button radius at 2px. Sharp corners are part of the workshop voice.",
+      "Do treat borders as the primary depth affordance. 1px paper-300 hairlines do the work that shadows do elsewhere.",
+      "Do tint every neutral toward the sap hue at very low chroma (0.005 to 0.012). The eye reads this as 'warm paper' rather than 'screen grey.'",
+      "Do put slugs, timestamps, AT-URIs, and tags in Plex Mono. They are data being worked on.",
+      "Do put uppercase letter-spaced labels only at 0.75rem with 0.06em tracking. They read as workshop stamps; at larger sizes they read as shouting."
+    ],
+    "donts": [
+      "Don't use #000 or #fff. The darkest ink is paper-900 (oklch 14%, tinted warm). The lightest paper is paper-0 (oklch 99.5%, tinted warm).",
+      "Don't introduce teal, the current crate-web accent, anywhere — even as colorPalette=\"teal\" on a Chakra component. The teal palette is removed from the theme.",
+      "Don't add box-shadow to anything. No card shadow, no button shadow, no input glow, no modal lift. The single allowed exception is 0 1px 0 ink/8% on the dropdown menu portal.",
+      "Don't wrap content in cards by default. Most lists, forms, and editor surfaces sit directly on paper-50 with hairline dividers between rows.",
+      "Don't use Chakra's default Card.Root variant=\"outline\". Migrate to the tighter spec: 2px radius, paper-0 surface, paper-300 hairline, no Card variant prop.",
+      "Don't use rounded-full pill buttons for filter chips. Filter tabs are uppercase Label-scale text with a sap underline on active.",
+      "Don't use friendly cartoon illustrations, icon-with-heading empty states, or 'let's get started!' microcopy. Empty states are one plain line plus one action.",
+      "Don't introduce a second display font (no Cormorant, no Lyon, no Recoleta, no decorative serif). One typeface in two registers.",
+      "Don't use gradient text or background-clip: text. The workshop has one ink.",
+      "Don't use glassmorphism (backdrop-filter blur) on the top nav, modals, or any surface. The nav is opaque paper-50.",
+      "Don't use Chakra defaults for radius, font, or button shape. Every component is custom-specified; the Chakra components are vehicles, not arbiters.",
+      "Don't use italic for emphasis in body copy. Use Plex Sans weight 500 or 600.",
+      "Don't use shadows, gradients, neon, or dark-mode-with-purple anywhere. This is the AI-coded-landing-page trap explicitly named in PRODUCT.md.",
+      "Don't use em dashes in UI copy. Commas, colons, semicolons, periods, or parentheses."
+    ]
+  }
+}

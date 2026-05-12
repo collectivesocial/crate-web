@@ -211,7 +211,9 @@ export function DocumentEditorPage() {
           </Box>
           <Box flex="1" minW="200px">
             <label htmlFor="doc-path" style={labelStyle}>
-              <Text as="span" fontSize="sm" color="fg.muted">Path (optional)</Text>
+              <Text as="span" fontSize="sm" color="fg.muted">
+                Path / slug (optional — preserves existing URLs)
+              </Text>
             </label>
             <Input
               id="doc-path"

@@ -1,6 +1,6 @@
 # crate-web
 
-React/Vite/Chakra web app for crate.social
+React/Vite/Chakra web app for Crate
 
 ## Setup
 

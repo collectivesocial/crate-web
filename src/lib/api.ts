@@ -1,7 +1,7 @@
 export const API_BASE = import.meta.env.VITE_API_URL ?? '';
 
 /**
- * Lightweight API client wrapping fetch with crate.social conventions:
+ * Lightweight API client wrapping fetch with Crate conventions:
  *  - Prefixes VITE_API_URL (empty in dev — Vite proxy forwards to api/)
  *  - credentials: 'include' on every request (required for session cookies)
  *  - JSON Content-Type on mutating requests

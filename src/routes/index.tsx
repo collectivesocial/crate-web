@@ -4,7 +4,7 @@ export function HomePage() {
   return (
     <Box>
       <Heading as="h1" size="2xl" mb={4}>
-        Welcome to crate.social
+        Welcome to Crate
       </Heading>
       <Text color="fg.muted" fontSize="lg">
         Package your ATProto records for your PDS. Dashboard coming soon.

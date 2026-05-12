@@ -164,7 +164,7 @@ export function NowEditorPage() {
               id="now-summary"
               value={summary}
               onChange={(e) => setSummary(e.target.value)}
-              placeholder="Deep in the garden buildout, shipping crate.social."
+              placeholder="Deep in the garden buildout, shipping Crate."
             />
           </Box>
           <Box flex="1" minW="200px">

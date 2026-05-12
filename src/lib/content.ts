@@ -32,6 +32,7 @@ export interface ContentRecord {
   kind: ContentKind;
   kindLabel?: string;
   title: string;
+  slug?: string;
   description?: string;
   body?: string;
   publishedAt: string;
@@ -53,6 +54,7 @@ export interface ContentInput {
   kind: ContentKind;
   kindLabel?: string;
   title: string;
+  slug?: string;
   description?: string;
   body?: string;
   publishedAt?: string;

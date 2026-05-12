@@ -20,7 +20,7 @@ export interface UseSessionResult {
 }
 
 /**
- * React hook for the current crate.social session.
+ * React hook for the current Crate session.
  *
  * Fetches `GET /api/session` on mount. Returns `loading` until the request
  * settles, then either `authenticated` (with `user`) or `unauthenticated`.
