@@ -52,9 +52,11 @@ export function NotesPage() {
         <Heading as="h1" size="xl">
           Notes
         </Heading>
-        <Button colorPalette="teal" asChild>
-          <RouterLink to="/notes/new">+ New note</RouterLink>
-        </Button>
+        <HStack gap={2}>
+          <Button colorPalette="teal" asChild>
+            <RouterLink to="/notes/new">+ New note</RouterLink>
+          </Button>
+        </HStack>
       </Flex>
 
       {status === 'loading' && (
@@ -82,9 +84,18 @@ export function NotesPage() {
           <Text color="fg.muted" mb={4}>
             No notes yet.
           </Text>
-          <Button colorPalette="teal" asChild>
-            <RouterLink to="/notes/new">Write your first note</RouterLink>
-          </Button>
+          <HStack gap={3} justify="center" wrap="wrap">
+            <Button colorPalette="teal" asChild>
+              <RouterLink to="/notes/new">Write your first note</RouterLink>
+            </Button>
+            <Button variant="outline" asChild>
+              <RouterLink to="/notes/import">…or import a folder</RouterLink>
+            </Button>
+          </HStack>
+          <Text fontSize="sm" color="fg.muted" mt={3}>
+            Already have a digital garden? Drop your existing markdown folder
+            and we'll preserve the hierarchy.
+          </Text>
         </Box>
       )}
 
@@ -103,11 +114,28 @@ export function NotesPage() {
                           {crumb.map((a) => a.value.title).join(' / ')}
                         </Text>
                       )}
-                      <Heading as="h3" size="md" mb={1}>
-                        <RouterLink to={`/notes/${encodeURIComponent(rkey)}`}>
-                          {n.value.title}
-                        </RouterLink>
-                      </Heading>
+                      <HStack gap={2} mb={1} align="baseline">
+                        <Heading as="h3" size="md">
+                          <RouterLink to={`/notes/${encodeURIComponent(rkey)}`}>
+                            {n.value.title}
+                          </RouterLink>
+                        </Heading>
+                        {n.value.draft && (
+                          <Text
+                            fontSize="xs"
+                            bg="bg.muted"
+                            color="fg.muted"
+                            px={2}
+                            py={0.5}
+                            borderRadius="sm"
+                            textTransform="uppercase"
+                            letterSpacing="0.05em"
+                            fontWeight={600}
+                          >
+                            Draft
+                          </Text>
+                        )}
+                      </HStack>
                       <Text fontSize="sm" color="fg.muted" mb={2}>
                         {n.value.slug} ·{' '}
                         {new Date(n.value.publishedAt).toLocaleDateString()}

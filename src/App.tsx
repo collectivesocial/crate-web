@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Container, Flex, HStack, Spinner, Text } from '@chakra-ui/react';
+import { Avatar, Box, Button, Container, Flex, HStack, Menu, Portal, Spinner, Text } from '@chakra-ui/react';
 import { Link as RouterLink, Outlet, useNavigate } from 'react-router-dom';
 import { useSession } from './lib/session';
 
@@ -28,25 +28,50 @@ export function App() {
               {status === 'loading' && <Spinner size="sm" />}
 
               {status === 'authenticated' && user && (
-                <>
-                  <RouterLink to="/notes">
-                    <Text fontSize="sm" color="fg.muted" _hover={{ color: 'accent.default' }}>
-                      Notes
-                    </Text>
-                  </RouterLink>
-                  <HStack gap={2}>
-                    <Avatar.Root size="xs" colorPalette="teal">
+                <Menu.Root positioning={{ placement: 'bottom-end' }}>
+                  <Menu.Trigger
+                    rounded="full"
+                    focusRing="outside"
+                    cursor="pointer"
+                    bg="transparent"
+                    aria-label="Account menu"
+                  >
+                    <Avatar.Root size="sm" colorPalette="teal">
                       {user.avatar && <Avatar.Image src={user.avatar} alt={avatarLabel} />}
                       <Avatar.Fallback name={avatarLabel} />
                     </Avatar.Root>
-                    <Text fontSize="sm" color="fg.muted">
-                      @{user.handle ?? user.did}
-                    </Text>
-                  </HStack>
-                  <Button size="sm" variant="outline" onClick={onLogout}>
-                    Log out
-                  </Button>
-                </>
+                  </Menu.Trigger>
+                  <Portal>
+                    <Menu.Positioner>
+                      <Menu.Content>
+                        <Box px={3} py={2}>
+                          <Text fontWeight="bold" fontSize="sm">
+                            {user.displayName || user.handle}
+                          </Text>
+                          <Text color="fg.muted" fontSize="xs">
+                            @{user.handle ?? user.did}
+                          </Text>
+                        </Box>
+                        <Menu.Separator />
+                        <Menu.Item value="notes" asChild>
+                          <RouterLink to="/notes">Notes</RouterLink>
+                        </Menu.Item>
+                        <Menu.Item value="import-notes" asChild>
+                          <RouterLink to="/notes/import">Import notes</RouterLink>
+                        </Menu.Item>
+                        <Menu.Separator />
+                        <Menu.Item
+                          value="logout"
+                          onClick={onLogout}
+                          color="fg.error"
+                          _hover={{ bg: 'bg.error', color: 'fg.error' }}
+                        >
+                          Log out
+                        </Menu.Item>
+                      </Menu.Content>
+                    </Menu.Positioner>
+                  </Portal>
+                </Menu.Root>
               )}
 
               {status === 'unauthenticated' && (

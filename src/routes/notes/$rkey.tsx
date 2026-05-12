@@ -8,10 +8,10 @@ import {
   Spinner,
   Stack,
   Text,
-  Textarea,
 } from '@chakra-ui/react';
 import { useEffect, useMemo, useState } from 'react';
 import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
+import { MarkdownEditor } from '../../components/MarkdownEditor';
 import {
   buildBreadcrumb,
   createNote,
@@ -46,6 +46,7 @@ export function NoteEditorPage() {
   const [body, setBody] = useState('');
   const [tagsInput, setTagsInput] = useState('');
   const [parent, setParent] = useState<string>('');
+  const [draft, setDraft] = useState(false);
   const [currentUri, setCurrentUri] = useState<string | null>(null);
   const [allNotes, setAllNotes] = useState<NoteEntry[]>([]);
 
@@ -71,6 +72,7 @@ export function NoteEditorPage() {
         setBody(entry.value.body);
         setTagsInput((entry.value.tags ?? []).join(', '));
         setParent(entry.value.parent ?? '');
+        setDraft(entry.value.draft === true);
         setCurrentUri(entry.uri);
       })
       .catch((err: Error) => {
@@ -152,6 +154,7 @@ export function NoteEditorPage() {
       body,
       tags: tags.length > 0 ? tags : undefined,
       parent: parent || undefined,
+      draft: draft || undefined,
     };
 
     setSaving(true);
@@ -313,17 +316,32 @@ export function NoteEditorPage() {
         </Box>
 
         <Box>
+          <label
+            htmlFor="note-draft"
+            style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}
+          >
+            <input
+              id="note-draft"
+              type="checkbox"
+              checked={draft}
+              onChange={(e) => setDraft(e.target.checked)}
+            />
+            <Text as="span" fontSize="sm" color="fg.muted">
+              Draft — keep this note private (note this is still public in your PDS)
+            </Text>
+          </label>
+        </Box>
+
+        <Box>
           <label htmlFor="note-body" style={labelStyle}>
             <Text as="span" fontSize="sm" color="fg.muted">Body (markdown)</Text>
           </label>
-          <Textarea
+          <MarkdownEditor
             id="note-body"
             value={body}
-            onChange={(e) => setBody(e.target.value)}
+            onChange={setBody}
             placeholder="Write your note here…"
-            rows={20}
-            fontFamily="mono"
-            fontSize="sm"
+            rows={24}
           />
         </Box>
       </Stack>

@@ -9,6 +9,7 @@ import { HomePage } from './routes/index';
 import { LoginPage } from './routes/login';
 import { NotesPage } from './routes/notes/index';
 import { NoteEditorPage } from './routes/notes/$rkey';
+import { NotesImportPage } from './routes/notes/import';
 
 const router = createBrowserRouter(
   [
@@ -19,6 +20,7 @@ const router = createBrowserRouter(
         { index: true, element: <HomePage /> },
         { path: 'login', element: <LoginPage /> },
         { path: 'notes', element: <NotesPage /> },
+        { path: 'notes/import', element: <NotesImportPage /> },
         { path: 'notes/:rkey', element: <NoteEditorPage /> },
       ],
     },

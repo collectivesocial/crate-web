@@ -7,6 +7,7 @@ export interface NoteRecord {
   body: string;
   tags?: string[];
   parent?: string;
+  draft?: boolean;
   publishedAt: string;
   updatedAt?: string;
   createdAt: string;
@@ -24,6 +25,7 @@ export interface NoteInput {
   body: string;
   tags?: string[];
   parent?: string;
+  draft?: boolean;
   publishedAt?: string;
 }
 
