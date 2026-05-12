@@ -17,7 +17,7 @@ import {
   createNote,
   deleteNote,
   getNote,
-  listNotes,
+  listAllNotes,
   rkeyFromUri,
   updateNote,
   type NoteEntry,
@@ -87,11 +87,12 @@ export function NoteEditorPage() {
   }, [rkey, isNew, status, navigate]);
 
   // Load every note once so we can populate the parent picker and walk the
-  // breadcrumb chain locally.
+  // breadcrumb chain locally. Must paginate — a single-page fetch caps at
+  // 100 records and would hide deeper trees from the parent dropdown.
   useEffect(() => {
     if (status !== 'authenticated') return;
     let cancelled = false;
-    listNotes({ limit: 100 })
+    listAllNotes()
       .then((data) => {
         if (!cancelled) setAllNotes(data.notes);
       })

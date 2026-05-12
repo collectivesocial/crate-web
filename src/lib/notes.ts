@@ -45,6 +45,31 @@ export async function listNotes(opts: { limit?: number; cursor?: string } = {}) 
   );
 }
 
+/**
+ * Page through `/api/notes` until the cursor is exhausted, returning every
+ * note in the authed user's repo. The list endpoint caps each page at 100
+ * records, so callers that need the *full* tree (the notes index, the parent
+ * picker) must paginate or they silently truncate at 50.
+ *
+ * `maxNotes` is a safety cap to avoid runaway loops on a misbehaving server;
+ * 5000 is well above any realistic personal-garden size.
+ */
+export async function listAllNotes(opts: { maxNotes?: number } = {}) {
+  const maxNotes = opts.maxNotes ?? 5000;
+  const all: NoteEntry[] = [];
+  let cursor: string | undefined;
+  // Hard iteration cap so a bug in the cursor handshake can't spin forever.
+  for (let i = 0; i < 100; i++) {
+    const page = await listNotes({ limit: 100, cursor });
+    all.push(...page.notes);
+    if (!page.cursor || all.length >= maxNotes) {
+      return { notes: all.slice(0, maxNotes), cursor: page.cursor };
+    }
+    cursor = page.cursor;
+  }
+  return { notes: all, cursor: null };
+}
+
 export async function getNote(rkey: string) {
   return apiFetch.get<NoteEntry>(`/api/notes/${encodeURIComponent(rkey)}`);
 }

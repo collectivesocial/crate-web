@@ -12,7 +12,7 @@ import {
 import { useEffect, useMemo, useState } from 'react';
 import { LuChevronDown, LuChevronRight, LuFileText } from 'react-icons/lu';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { listNotes, type NoteEntry, rkeyFromUri } from '../../lib/notes';
+import { listAllNotes, type NoteEntry, rkeyFromUri } from '../../lib/notes';
 import { useSession } from '../../lib/session';
 
 /** A node in the rendered tree: a note plus its (sorted) children. */
@@ -67,7 +67,9 @@ export function NotesPage() {
 
     let cancelled = false;
     setError(null);
-    listNotes()
+    // Page through every note so the tree view is complete; a 50-note
+    // default page would silently hide everything past the first batch.
+    listAllNotes()
       .then((data) => {
         if (!cancelled) setNotes(data.notes);
       })
