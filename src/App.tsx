@@ -25,6 +25,11 @@ export function App() {
 
               {status === 'authenticated' && user && (
                 <>
+                  <RouterLink to="/notes">
+                    <Text fontSize="sm" color="fg.muted" _hover={{ color: 'accent.default' }}>
+                      Notes
+                    </Text>
+                  </RouterLink>
                   <Text fontSize="sm" color="fg.muted">
                     @{user.handle ?? user.did}
                   </Text>

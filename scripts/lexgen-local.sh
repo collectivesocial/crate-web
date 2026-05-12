@@ -20,10 +20,10 @@ LEXICONS_DIR="$(cd "$CRATE_LEXICONS" && pwd)"
 LEXICON_FILES=()
 while IFS= read -r -d '' f; do
   LEXICON_FILES+=("$f")
-done < <(find "$LEXICONS_DIR/social/crate" -name "*.json" -print0 | sort -z)
+done < <(find "$LEXICONS_DIR/social" "$LEXICONS_DIR/community" -name "*.json" -print0 2>/dev/null | sort -z)
 
 if [[ ${#LEXICON_FILES[@]} -eq 0 ]]; then
-  echo "ERROR: No lexicon JSON files found under $LEXICONS_DIR/social/crate" >&2
+  echo "ERROR: No lexicon JSON files found under $LEXICONS_DIR" >&2
   exit 1
 fi
 
@@ -31,7 +31,7 @@ OUTPUT_DIR="$REPO_ROOT/src/lexicon"
 mkdir -p "$OUTPUT_DIR"
 
 echo "==> crate-web lexicon codegen"
-echo "    source: $LEXICONS_DIR/social/crate/ (${#LEXICON_FILES[@]} files)"
+echo "    source: $LEXICONS_DIR/ (${#LEXICON_FILES[@]} files)"
 echo "    output: src/lexicon/"
 echo ""
 
