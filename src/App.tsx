@@ -25,7 +25,7 @@ export function App() {
       <Box as="header" bg="bg.nav" borderBottom="1px solid" borderColor="border.subtle" py={3} px={6}>
         <Container maxW="container.workspace">
           <Flex align="center" justify="space-between">
-            <Text fontWeight="700" fontSize="lg" color="accent.default">
+            <Box fontWeight="700" fontSize="lg" color="accent.default" lineHeight="1">
               <RouterLink to="/">
                 <HStack gap={2}>
                   <ChakraSvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" boxSize="5">
@@ -39,7 +39,7 @@ export function App() {
                   <Text as="span">Crate</Text>
                 </HStack>
               </RouterLink>
-            </Text>
+            </Box>
 
             <HStack gap={4}>
               {status === 'loading' && <Spinner size="sm" />}
@@ -81,6 +81,9 @@ export function App() {
                         </Menu.Item>
                         <Menu.Item value="events" asChild>
                           <RouterLink to="/events">Events</RouterLink>
+                        </Menu.Item>
+                        <Menu.Item value="feeds" asChild>
+                          <RouterLink to="/feeds">Feeds</RouterLink>
                         </Menu.Item>
                         <Menu.Item value="now" asChild>
                           <RouterLink to="/now">Now</RouterLink>

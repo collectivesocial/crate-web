@@ -29,6 +29,8 @@ import { NowEditorPage } from './routes/now/edit';
 import { NowSettingsPage } from './routes/now/settings';
 import { EventsPage } from './routes/events/index';
 import { EventEditorPage } from './routes/events/$rkey';
+import { FeedsPage } from './routes/feeds/index';
+import { FeedEditorPage } from './routes/feeds/$rkey';
 
 const router = createBrowserRouter(
   [
@@ -50,6 +52,8 @@ const router = createBrowserRouter(
         { path: 'now/settings', element: <NowSettingsPage /> },
         { path: 'events', element: <EventsPage /> },
         { path: 'events/:rkey', element: <EventEditorPage /> },
+        { path: 'feeds', element: <FeedsPage /> },
+        { path: 'feeds/:rkey', element: <FeedEditorPage /> },
       ],
     },
   ],
