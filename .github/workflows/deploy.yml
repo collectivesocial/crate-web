@@ -32,7 +32,7 @@ jobs:
         run: npm run build
         env:
           VITE_BASE_PATH: ${{ vars.VITE_BASE_PATH || '/' }}
-          VITE_API_URL: ${{ vars.VITE_API_URL || 'https://app.crate.social' }}
+          VITE_API_URL: ${{ vars.VITE_API_URL || 'https://api.crate.social' }}
 
       - uses: actions/upload-pages-artifact@v3
         with:
