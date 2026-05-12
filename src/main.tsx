@@ -10,6 +10,10 @@ import { LoginPage } from './routes/login';
 import { NotesPage } from './routes/notes/index';
 import { NoteEditorPage } from './routes/notes/$rkey';
 import { NotesImportPage } from './routes/notes/import';
+import { DocumentsPage } from './routes/documents/index';
+import { DocumentEditorPage } from './routes/documents/$rkey';
+import { ContentPage } from './routes/content/index';
+import { ContentEditorPage } from './routes/content/$rkey';
 
 const router = createBrowserRouter(
   [
@@ -22,6 +26,10 @@ const router = createBrowserRouter(
         { path: 'notes', element: <NotesPage /> },
         { path: 'notes/import', element: <NotesImportPage /> },
         { path: 'notes/:rkey', element: <NoteEditorPage /> },
+        { path: 'documents', element: <DocumentsPage /> },
+        { path: 'documents/:rkey', element: <DocumentEditorPage /> },
+        { path: 'content', element: <ContentPage /> },
+        { path: 'content/:rkey', element: <ContentEditorPage /> },
       ],
     },
   ],

@@ -9,7 +9,9 @@ import {
 import { schemas } from './lexicons.js'
 import { CID } from 'multiformats/cid'
 import { type OmitKey, type Un$Typed } from './util.js'
+import * as ComAtprotoRepoStrongRef from './types/com/atproto/repo/strongRef.js'
 import * as CommunityLexiconCalendarEvent from './types/community/lexicon/calendar/event.js'
+import * as SiteStandardDocument from './types/site/standard/document.js'
 import * as SocialCrateContent from './types/social/crate/content.js'
 import * as SocialCrateMakingProject from './types/social/crate/making/project.js'
 import * as SocialCrateMakingUpdate from './types/social/crate/making/update.js'
@@ -18,7 +20,9 @@ import * as SocialCrateNoteLink from './types/social/crate/note/link.js'
 import * as SocialCrateNow from './types/social/crate/now.js'
 import * as SocialCrateRssFeed from './types/social/crate/rss/feed.js'
 
+export * as ComAtprotoRepoStrongRef from './types/com/atproto/repo/strongRef.js'
 export * as CommunityLexiconCalendarEvent from './types/community/lexicon/calendar/event.js'
+export * as SiteStandardDocument from './types/site/standard/document.js'
 export * as SocialCrateContent from './types/social/crate/content.js'
 export * as SocialCrateMakingProject from './types/social/crate/making/project.js'
 export * as SocialCrateMakingUpdate from './types/social/crate/making/update.js'
@@ -28,18 +32,50 @@ export * as SocialCrateNow from './types/social/crate/now.js'
 export * as SocialCrateRssFeed from './types/social/crate/rss/feed.js'
 
 export class AtpBaseClient extends XrpcClient {
+  com: ComNS
   community: CommunityNS
+  site: SiteNS
   social: SocialNS
 
   constructor(options: FetchHandler | FetchHandlerOptions) {
     super(options, schemas)
+    this.com = new ComNS(this)
     this.community = new CommunityNS(this)
+    this.site = new SiteNS(this)
     this.social = new SocialNS(this)
   }
 
   /** @deprecated use `this` instead */
   get xrpc(): XrpcClient {
     return this
+  }
+}
+
+export class ComNS {
+  _client: XrpcClient
+  atproto: ComAtprotoNS
+
+  constructor(client: XrpcClient) {
+    this._client = client
+    this.atproto = new ComAtprotoNS(client)
+  }
+}
+
+export class ComAtprotoNS {
+  _client: XrpcClient
+  repo: ComAtprotoRepoNS
+
+  constructor(client: XrpcClient) {
+    this._client = client
+    this.repo = new ComAtprotoRepoNS(client)
+  }
+}
+
+export class ComAtprotoRepoNS {
+  _client: XrpcClient
+
+  constructor(client: XrpcClient) {
+    this._client = client
   }
 }
 
@@ -151,6 +187,105 @@ export class CommunityLexiconCalendarEventRecord {
       'com.atproto.repo.deleteRecord',
       undefined,
       { collection: 'community.lexicon.calendar.event', ...params },
+      { headers },
+    )
+  }
+}
+
+export class SiteNS {
+  _client: XrpcClient
+  standard: SiteStandardNS
+
+  constructor(client: XrpcClient) {
+    this._client = client
+    this.standard = new SiteStandardNS(client)
+  }
+}
+
+export class SiteStandardNS {
+  _client: XrpcClient
+  document: SiteStandardDocumentRecord
+
+  constructor(client: XrpcClient) {
+    this._client = client
+    this.document = new SiteStandardDocumentRecord(client)
+  }
+}
+
+export class SiteStandardDocumentRecord {
+  _client: XrpcClient
+
+  constructor(client: XrpcClient) {
+    this._client = client
+  }
+
+  async list(
+    params: OmitKey<ComAtprotoRepoListRecords.QueryParams, 'collection'>,
+  ): Promise<{
+    cursor?: string
+    records: { uri: string; value: SiteStandardDocument.Record }[]
+  }> {
+    const res = await this._client.call('com.atproto.repo.listRecords', {
+      collection: 'site.standard.document',
+      ...params,
+    })
+    return res.data
+  }
+
+  async get(
+    params: OmitKey<ComAtprotoRepoGetRecord.QueryParams, 'collection'>,
+  ): Promise<{ uri: string; cid: string; value: SiteStandardDocument.Record }> {
+    const res = await this._client.call('com.atproto.repo.getRecord', {
+      collection: 'site.standard.document',
+      ...params,
+    })
+    return res.data
+  }
+
+  async create(
+    params: OmitKey<
+      ComAtprotoRepoCreateRecord.InputSchema,
+      'collection' | 'record'
+    >,
+    record: Un$Typed<SiteStandardDocument.Record>,
+    headers?: Record<string, string>,
+  ): Promise<{ uri: string; cid: string }> {
+    const collection = 'site.standard.document'
+    const res = await this._client.call(
+      'com.atproto.repo.createRecord',
+      undefined,
+      { collection, ...params, record: { ...record, $type: collection } },
+      { encoding: 'application/json', headers },
+    )
+    return res.data
+  }
+
+  async put(
+    params: OmitKey<
+      ComAtprotoRepoPutRecord.InputSchema,
+      'collection' | 'record'
+    >,
+    record: Un$Typed<SiteStandardDocument.Record>,
+    headers?: Record<string, string>,
+  ): Promise<{ uri: string; cid: string }> {
+    const collection = 'site.standard.document'
+    const res = await this._client.call(
+      'com.atproto.repo.putRecord',
+      undefined,
+      { collection, ...params, record: { ...record, $type: collection } },
+      { encoding: 'application/json', headers },
+    )
+    return res.data
+  }
+
+  async delete(
+    params: OmitKey<ComAtprotoRepoDeleteRecord.InputSchema, 'collection'>,
+    headers?: Record<string, string>,
+  ): Promise<void> {
+    await this._client.call(
+      'com.atproto.repo.deleteRecord',
+      undefined,
+      { collection: 'site.standard.document', ...params },
       { headers },
     )
   }

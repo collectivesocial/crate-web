@@ -56,9 +56,25 @@ export function App() {
                         <Menu.Item value="notes" asChild>
                           <RouterLink to="/notes">Notes</RouterLink>
                         </Menu.Item>
-                        <Menu.Item value="import-notes" asChild>
-                          <RouterLink to="/notes/import">Import notes</RouterLink>
+                        <Menu.Item value="documents" asChild>
+                          <RouterLink to="/documents">Documents</RouterLink>
                         </Menu.Item>
+                        <Menu.Item value="content" asChild>
+                          <RouterLink to="/content">Content</RouterLink>
+                        </Menu.Item>
+                        <Menu.Separator />
+                        <Menu.Root positioning={{ placement: 'left-start', gutter: 4 }}>
+                          <Menu.TriggerItem>Settings</Menu.TriggerItem>
+                          <Portal>
+                            <Menu.Positioner>
+                              <Menu.Content>
+                                <Menu.Item value="import-notes" asChild>
+                                  <RouterLink to="/notes/import">Import notes</RouterLink>
+                                </Menu.Item>
+                              </Menu.Content>
+                            </Menu.Positioner>
+                          </Portal>
+                        </Menu.Root>
                         <Menu.Separator />
                         <Menu.Item
                           value="logout"

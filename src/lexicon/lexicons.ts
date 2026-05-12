@@ -10,6 +10,28 @@ import {
 import { type $Typed, is$typed, maybe$typed } from './util.js'
 
 export const schemaDict = {
+  ComAtprotoRepoStrongRef: {
+    lexicon: 1,
+    id: 'com.atproto.repo.strongRef',
+    description:
+      'Vendored copy of com.atproto.repo.strongRef so other lexicons in this directory can reference it via `ref`. A strong ref binds a target record by both its AT-URI and CID.',
+    defs: {
+      main: {
+        type: 'object',
+        required: ['uri', 'cid'],
+        properties: {
+          uri: {
+            type: 'string',
+            format: 'at-uri',
+          },
+          cid: {
+            type: 'string',
+            format: 'cid',
+          },
+        },
+      },
+    },
+  },
   CommunityLexiconCalendarEvent: {
     lexicon: 1,
     id: 'community.lexicon.calendar.event',
@@ -134,6 +156,84 @@ export const schemaDict = {
       },
     },
   },
+  SiteStandardDocument: {
+    lexicon: 1,
+    id: 'site.standard.document',
+    defs: {
+      main: {
+        type: 'record',
+        description:
+          'Vendored copy of the site.standard.document lexicon. A long-form document published on the web; may be standalone or part of a publication. Compatible with Offprint, Leaflet, pckt.blog, and other standard.site implementations. Source: https://standard.site/docs/lexicons/document/',
+        key: 'tid',
+        record: {
+          type: 'object',
+          required: ['site', 'title', 'publishedAt'],
+          properties: {
+            site: {
+              type: 'string',
+              format: 'uri',
+              description:
+                'Points to a publication record (at://) or a publication url (https://) for loose documents. Avoid trailing slashes.',
+            },
+            path: {
+              type: 'string',
+              description:
+                'Combine with site or publication url to construct a canonical URL to the document. Prepend with a leading slash.',
+            },
+            title: {
+              type: 'string',
+              maxLength: 5000,
+              maxGraphemes: 500,
+              description: 'Title of the document.',
+            },
+            description: {
+              type: 'string',
+              maxLength: 30000,
+              maxGraphemes: 3000,
+              description: 'A brief description or excerpt from the document.',
+            },
+            coverImage: {
+              type: 'blob',
+              description: 'Image to use for thumbnail or cover image.',
+              accept: ['image/jpeg', 'image/png', 'image/webp', 'image/gif'],
+              maxSize: 1000000,
+            },
+            textContent: {
+              type: 'string',
+              description:
+                "Plaintext representation of the document's contents. Should not contain markdown or other formatting.",
+            },
+            bskyPostRef: {
+              type: 'ref',
+              ref: 'lex:com.atproto.repo.strongRef',
+              description:
+                'Strong reference to a Bluesky post. Useful to keep track of comments off-platform.',
+            },
+            tags: {
+              type: 'array',
+              description:
+                'Tags used to categorize the document. Avoid prepending tags with hashtags.',
+              items: {
+                type: 'string',
+                maxLength: 1280,
+                maxGraphemes: 128,
+              },
+            },
+            publishedAt: {
+              type: 'string',
+              format: 'datetime',
+              description: "Timestamp of the document's publish time.",
+            },
+            updatedAt: {
+              type: 'string',
+              format: 'datetime',
+              description: "Timestamp of the document's last edit.",
+            },
+          },
+        },
+      },
+    },
+  },
   SocialCrateContent: {
     lexicon: 1,
     id: 'social.crate.content',
@@ -205,6 +305,13 @@ export const schemaDict = {
               ],
               maxSize: 2000000,
             },
+            imageAlt: {
+              type: 'string',
+              maxGraphemes: 2000,
+              maxLength: 20000,
+              description:
+                'Alt text describing the image for screen readers and renderers that need a text fallback.',
+            },
             tags: {
               type: 'array',
               description:
@@ -231,6 +338,12 @@ export const schemaDict = {
               type: 'ref',
               ref: 'lex:social.crate.content#series',
               description: 'Series metadata. Used by podcast, newsletter.',
+            },
+            bskyPostRef: {
+              type: 'ref',
+              ref: 'lex:com.atproto.repo.strongRef',
+              description:
+                'Strong reference to a Bluesky post. Useful for off-platform comments, or to crosslink an illustration / article / video / talk to its announcement post.',
             },
             createdAt: {
               type: 'string',
@@ -892,7 +1005,9 @@ export function validate(
 }
 
 export const ids = {
+  ComAtprotoRepoStrongRef: 'com.atproto.repo.strongRef',
   CommunityLexiconCalendarEvent: 'community.lexicon.calendar.event',
+  SiteStandardDocument: 'site.standard.document',
   SocialCrateContent: 'social.crate.content',
   SocialCrateMakingProject: 'social.crate.making.project',
   SocialCrateMakingUpdate: 'social.crate.making.update',

@@ -5,6 +5,7 @@ import { type ValidationResult, BlobRef } from '@atproto/lexicon'
 import { CID } from 'multiformats/cid'
 import { validate as _validate } from '../../../lexicons'
 import { type $Typed, is$typed as _is$typed, type OmitKey } from '../../../util'
+import type * as ComAtprotoRepoStrongRef from '../../com/atproto/repo/strongRef.js'
 
 const is$typed = _is$typed,
   validate = _validate
@@ -33,11 +34,14 @@ export interface Main {
   canonicalUrl?: string
   /** Cover image, illustration, or thumbnail. */
   image?: BlobRef
+  /** Alt text describing the image for screen readers and renderers that need a text fallback. */
+  imageAlt?: string
   /** Freeform tags shared across all content kinds. Enables cross-kind filtering. */
   tags?: string[]
   media?: Media
   event?: Event
   series?: Series
+  bskyPostRef?: ComAtprotoRepoStrongRef.Main
   /** Timestamp when this record was first created in the user's PDS. */
   createdAt: string
   [k: string]: unknown
