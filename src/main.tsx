@@ -14,6 +14,9 @@ import { DocumentsPage } from './routes/documents/index';
 import { DocumentEditorPage } from './routes/documents/$rkey';
 import { ContentPage } from './routes/content/index';
 import { ContentEditorPage } from './routes/content/$rkey';
+import { NowPage } from './routes/now/index';
+import { NowEditorPage } from './routes/now/edit';
+import { NowSettingsPage } from './routes/now/settings';
 
 const router = createBrowserRouter(
   [
@@ -30,6 +33,9 @@ const router = createBrowserRouter(
         { path: 'documents/:rkey', element: <DocumentEditorPage /> },
         { path: 'content', element: <ContentPage /> },
         { path: 'content/:rkey', element: <ContentEditorPage /> },
+        { path: 'now', element: <NowPage /> },
+        { path: 'now/edit', element: <NowEditorPage /> },
+        { path: 'now/settings', element: <NowSettingsPage /> },
       ],
     },
   ],

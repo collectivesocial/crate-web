@@ -130,7 +130,7 @@ export function ContentPage() {
                             {c.value.title}
                           </RouterLink>
                         </Heading>
-                        <KindBadge kind={c.value.kind} />
+                        <KindBadge kind={c.value.kind} label={c.value.kindLabel} />
                       </HStack>
                       <Text fontSize="sm" color="fg.muted" mb={2}>
                         {new Date(c.value.publishedAt).toLocaleDateString()}
@@ -211,7 +211,8 @@ function FilterChip({
   );
 }
 
-function KindBadge({ kind }: { kind: ContentKind }) {
+function KindBadge({ kind, label }: { kind: ContentKind; label?: string }) {
+  const text = kind === 'other' && label ? label : kind;
   return (
     <Text
       fontSize="xs"
@@ -224,7 +225,7 @@ function KindBadge({ kind }: { kind: ContentKind }) {
       letterSpacing="0.05em"
       fontWeight={600}
     >
-      {kind}
+      {text}
     </Text>
   );
 }

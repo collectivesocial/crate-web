@@ -18,6 +18,7 @@ import * as SocialCrateMakingUpdate from './types/social/crate/making/update.js'
 import * as SocialCrateNote from './types/social/crate/note.js'
 import * as SocialCrateNoteLink from './types/social/crate/note/link.js'
 import * as SocialCrateNow from './types/social/crate/now.js'
+import * as SocialCrateNowConfig from './types/social/crate/now/config.js'
 import * as SocialCrateRssFeed from './types/social/crate/rss/feed.js'
 
 export * as ComAtprotoRepoStrongRef from './types/com/atproto/repo/strongRef.js'
@@ -29,6 +30,7 @@ export * as SocialCrateMakingUpdate from './types/social/crate/making/update.js'
 export * as SocialCrateNote from './types/social/crate/note.js'
 export * as SocialCrateNoteLink from './types/social/crate/note/link.js'
 export * as SocialCrateNow from './types/social/crate/now.js'
+export * as SocialCrateNowConfig from './types/social/crate/now/config.js'
 export * as SocialCrateRssFeed from './types/social/crate/rss/feed.js'
 
 export class AtpBaseClient extends XrpcClient {
@@ -308,12 +310,14 @@ export class SocialCrateNS {
   now: SocialCrateNowRecord
   making: SocialCrateMakingNS
   note: SocialCrateNoteNS
+  now: SocialCrateNowNS
   rss: SocialCrateRssNS
 
   constructor(client: XrpcClient) {
     this._client = client
     this.making = new SocialCrateMakingNS(client)
     this.note = new SocialCrateNoteNS(client)
+    this.now = new SocialCrateNowNS(client)
     this.rss = new SocialCrateRssNS(client)
     this.content = new SocialCrateContentRecord(client)
     this.note = new SocialCrateNoteRecord(client)
@@ -583,6 +587,100 @@ export class SocialCrateNoteLinkRecord {
       'com.atproto.repo.deleteRecord',
       undefined,
       { collection: 'social.crate.note.link', ...params },
+      { headers },
+    )
+  }
+}
+
+export class SocialCrateNowNS {
+  _client: XrpcClient
+  config: SocialCrateNowConfigRecord
+
+  constructor(client: XrpcClient) {
+    this._client = client
+    this.config = new SocialCrateNowConfigRecord(client)
+  }
+}
+
+export class SocialCrateNowConfigRecord {
+  _client: XrpcClient
+
+  constructor(client: XrpcClient) {
+    this._client = client
+  }
+
+  async list(
+    params: OmitKey<ComAtprotoRepoListRecords.QueryParams, 'collection'>,
+  ): Promise<{
+    cursor?: string
+    records: { uri: string; value: SocialCrateNowConfig.Record }[]
+  }> {
+    const res = await this._client.call('com.atproto.repo.listRecords', {
+      collection: 'social.crate.now.config',
+      ...params,
+    })
+    return res.data
+  }
+
+  async get(
+    params: OmitKey<ComAtprotoRepoGetRecord.QueryParams, 'collection'>,
+  ): Promise<{ uri: string; cid: string; value: SocialCrateNowConfig.Record }> {
+    const res = await this._client.call('com.atproto.repo.getRecord', {
+      collection: 'social.crate.now.config',
+      ...params,
+    })
+    return res.data
+  }
+
+  async create(
+    params: OmitKey<
+      ComAtprotoRepoCreateRecord.InputSchema,
+      'collection' | 'record'
+    >,
+    record: Un$Typed<SocialCrateNowConfig.Record>,
+    headers?: Record<string, string>,
+  ): Promise<{ uri: string; cid: string }> {
+    const collection = 'social.crate.now.config'
+    const res = await this._client.call(
+      'com.atproto.repo.createRecord',
+      undefined,
+      {
+        collection,
+        rkey: 'self',
+        ...params,
+        record: { ...record, $type: collection },
+      },
+      { encoding: 'application/json', headers },
+    )
+    return res.data
+  }
+
+  async put(
+    params: OmitKey<
+      ComAtprotoRepoPutRecord.InputSchema,
+      'collection' | 'record'
+    >,
+    record: Un$Typed<SocialCrateNowConfig.Record>,
+    headers?: Record<string, string>,
+  ): Promise<{ uri: string; cid: string }> {
+    const collection = 'social.crate.now.config'
+    const res = await this._client.call(
+      'com.atproto.repo.putRecord',
+      undefined,
+      { collection, ...params, record: { ...record, $type: collection } },
+      { encoding: 'application/json', headers },
+    )
+    return res.data
+  }
+
+  async delete(
+    params: OmitKey<ComAtprotoRepoDeleteRecord.InputSchema, 'collection'>,
+    headers?: Record<string, string>,
+  ): Promise<void> {
+    await this._client.call(
+      'com.atproto.repo.deleteRecord',
+      undefined,
+      { collection: 'social.crate.now.config', ...params },
       { headers },
     )
   }

@@ -62,6 +62,27 @@ function fromLocalInput(local: string): string | undefined {
   return d.toISOString();
 }
 
+/**
+ * Convert any Date-parseable string (ISO 8601, RFC 2822, frontmatter-style
+ * "2025-01-06 06:00:00-08:00", etc.) into the local datetime format the
+ * <input type=datetime-local> picker expects. Returns null when the input
+ * is not a recognizable date so the caller can fall through to default
+ * paste behavior.
+ */
+function parseAnyDateToLocal(raw: string): string | null {
+  if (!raw) return null;
+  let trimmed = raw.trim();
+  // "YYYY-MM-DD HH:MM:SS-08:00" (frontmatter-style with a space) is not
+  // accepted by every JS engine — promote the space to a T so Date.parse
+  // handles it consistently.
+  if (/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}/.test(trimmed)) {
+    trimmed = trimmed.replace(' ', 'T');
+  }
+  const d = new Date(trimmed);
+  if (Number.isNaN(d.getTime())) return null;
+  return toLocalInput(d.toISOString());
+}
+
 export function ContentEditorPage() {
   const params = useParams<{ rkey: string }>();
   const rkey = params.rkey ?? NEW;
@@ -71,6 +92,7 @@ export function ContentEditorPage() {
   const navigate = useNavigate();
 
   const [kind, setKind] = useState<ContentKind>('article');
+  const [kindLabel, setKindLabel] = useState('');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [body, setBody] = useState('');
@@ -106,6 +128,7 @@ export function ContentEditorPage() {
         if (cancelled) return;
         const v = entry.value;
         setKind(v.kind);
+        setKindLabel(v.kindLabel ?? '');
         setTitle(v.title);
         setDescription(v.description ?? '');
         setBody(v.body ?? '');
@@ -185,6 +208,7 @@ export function ContentEditorPage() {
 
     const input: ContentInput = {
       kind,
+      kindLabel: kind === 'other' && kindLabel.trim() ? kindLabel.trim() : undefined,
       title: title.trim(),
       description: description.trim() || undefined,
       body: body.trim() || undefined,
@@ -319,6 +343,23 @@ export function ContentEditorPage() {
             </select>
           </Box>
 
+          {kind === 'other' && (
+            <Box flex="1" minW="200px">
+              <label htmlFor="content-kind-label" style={labelStyle}>
+                <Text as="span" fontSize="sm" color="fg.muted">
+                  Describe the type
+                </Text>
+              </label>
+              <Input
+                id="content-kind-label"
+                value={kindLabel}
+                onChange={(e) => setKindLabel(e.target.value)}
+                placeholder="zine, recipe, sticker pack…"
+                autoFocus
+              />
+            </Box>
+          )}
+
           <Box flex="1" minW="240px">
             <label htmlFor="content-published-at" style={labelStyle}>
               <Text as="span" fontSize="sm" color="fg.muted">
@@ -330,6 +371,14 @@ export function ContentEditorPage() {
               type="datetime-local"
               value={publishedAt}
               onChange={(e) => setPublishedAt(e.target.value)}
+              onPaste={(e) => {
+                const pasted = e.clipboardData.getData('text');
+                const parsed = parseAnyDateToLocal(pasted);
+                if (parsed) {
+                  e.preventDefault();
+                  setPublishedAt(parsed);
+                }
+              }}
             />
           </Box>
         </Flex>

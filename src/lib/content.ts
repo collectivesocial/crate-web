@@ -30,6 +30,7 @@ export interface BlobRef {
 export interface ContentRecord {
   $type: 'social.crate.content';
   kind: ContentKind;
+  kindLabel?: string;
   title: string;
   description?: string;
   body?: string;
@@ -50,6 +51,7 @@ export interface ContentEntry {
 
 export interface ContentInput {
   kind: ContentKind;
+  kindLabel?: string;
   title: string;
   description?: string;
   body?: string;

@@ -62,6 +62,9 @@ export function App() {
                         <Menu.Item value="content" asChild>
                           <RouterLink to="/content">Content</RouterLink>
                         </Menu.Item>
+                        <Menu.Item value="now" asChild>
+                          <RouterLink to="/now">Now</RouterLink>
+                        </Menu.Item>
                         <Menu.Separator />
                         <Menu.Root positioning={{ placement: 'left-start', gutter: 4 }}>
                           <Menu.TriggerItem>Settings</Menu.TriggerItem>

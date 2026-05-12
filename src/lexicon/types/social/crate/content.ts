@@ -22,6 +22,8 @@ export interface Main {
     | 'newsletter'
     | 'podcast'
     | 'other'
+  /** Optional user-supplied label shown alongside the kind. Most useful when kind is 'other' to describe what the content actually is (e.g. 'zine', 'recipe', 'sticker pack'). Renderers should prefer this label when present and the kind is 'other'. */
+  kindLabel?: string
   /** Plain-text title of the content. */
   title: string
   /** Short markdown summary, abstract, or caption. Appropriate for previews and feeds. */
