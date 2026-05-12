@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  chakra,
   Collapsible,
   Flex,
   Heading,
@@ -25,6 +26,11 @@ import {
 } from '../../lib/noteImport';
 import { createNote } from '../../lib/notes';
 import { useSession } from '../../lib/session';
+
+// Chakra v3's polymorphic `Box as="button"` doesn't carry button-specific HTML
+// attrs through its type. The `chakra("button")` factory creates a button-shaped
+// element that still accepts all Chakra style props.
+const CollapsibleButton = chakra('button');
 
 type ImportStatus = 'pending' | 'creating' | 'done' | 'error';
 
@@ -483,7 +489,7 @@ function FieldMappingPanel({ mapping, setMapping, onApply }: FieldMappingPanelPr
         mb={4}
       >
         <Collapsible.Trigger asChild>
-          <Box as="button" type="button" w="100%" textAlign="left" px={4} py={3}>
+          <CollapsibleButton type="button" w="100%" textAlign="left" px={4} py={3}>
             <Flex align="center" justify="space-between">
               <HStack gap={2}>
                 <Text fontSize="sm" fontWeight={600}>
@@ -506,7 +512,7 @@ function FieldMappingPanel({ mapping, setMapping, onApply }: FieldMappingPanelPr
                 Click to expand
               </Text>
             </Flex>
-          </Box>
+          </CollapsibleButton>
         </Collapsible.Trigger>
         <Collapsible.Content>
           <Box px={4} pb={4}>

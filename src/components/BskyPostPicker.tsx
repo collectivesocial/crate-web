@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  chakra,
   Flex,
   HStack,
   Input,
@@ -9,6 +10,11 @@ import {
   Tabs,
   Text,
 } from '@chakra-ui/react';
+
+// Chakra v3's Box isn't polymorphic enough to accept button-specific HTML
+// attrs like `type` when given `as="button"`. The `chakra("button")` factory
+// creates a button-shaped element that still takes all Chakra style props.
+const ChakraButton = chakra('button');
 import { useEffect, useState } from 'react';
 import {
   listMyBskyPosts,
@@ -240,9 +246,8 @@ function BrowseMyPosts({ onPick }: { onPick: (ref: BskyPostRef) => void }) {
       <Box maxH="320px" overflowY="auto" borderWidth="1px" borderColor="border.subtle" borderRadius="md">
         <Stack gap={0}>
           {filtered.map((p) => (
-            <Box
+            <ChakraButton
               key={p.uri}
-              as="button"
               type="button"
               textAlign="left"
               px={3}
@@ -261,7 +266,7 @@ function BrowseMyPosts({ onPick }: { onPick: (ref: BskyPostRef) => void }) {
                   {new Date(p.createdAt).toLocaleString()}
                 </Text>
               )}
-            </Box>
+            </ChakraButton>
           ))}
           {filtered.length === 0 && (
             <Box px={3} py={2}>
