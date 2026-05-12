@@ -68,7 +68,7 @@ export function App() {
       <Box as="footer" bg="bg.subtle" borderTop="1px solid" borderColor="border.subtle" py={4} px={6}>
         <Container maxW="container.workspace">
           <Text fontSize="sm" color="fg.muted" textAlign="center">
-            crate.social — your content, your records
+            crate.social — Package your ATProto records for your PDS
           </Text>
         </Container>
       </Box>

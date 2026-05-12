@@ -7,7 +7,7 @@ export function HomePage() {
         Welcome to crate.social
       </Heading>
       <Text color="fg.muted" fontSize="lg">
-        Your content, as ATProto records. Dashboard coming soon.
+        Package your ATProto records for your PDS. Dashboard coming soon.
       </Text>
     </Box>
   );
