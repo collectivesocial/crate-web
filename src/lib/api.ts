@@ -30,10 +30,19 @@ async function request<T = unknown>(
 
   if (!res.ok) {
     const data = await res.json().catch(() => ({}));
-    const message =
-      (data as { error?: string; details?: string }).details
-        ? `${(data as { error: string }).error}: ${(data as { details: string }).details}`
-        : (data as { error?: string }).error ?? `Request failed (${res.status})`;
+    const { error, details } = data as { error?: string; details?: unknown };
+    // `details` is usually a string, but some endpoints return a structured
+    // object (e.g. a zod `flatten()`); render that as JSON rather than the
+    // useless "[object Object]".
+    const detailStr =
+      details == null
+        ? undefined
+        : typeof details === 'string'
+          ? details
+          : JSON.stringify(details);
+    const message = detailStr
+      ? `${error ?? 'Error'}: ${detailStr}`
+      : (error ?? `Request failed (${res.status})`);
     throw new Error(message);
   }
 
